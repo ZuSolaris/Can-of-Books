@@ -4,36 +4,46 @@
 
 require('dotenv').config();
 
-const { response } = require('express');
+
+
 const express = require('express');
 const nodemon = require('nodemon');
-const cors = require = require('cors');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
+
+
+//connection to db
+mongoose.connect(process.env.DB_URL);
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+console.log('Mongoose Connected!');
+});
 
 //use apps 
 
 const app = express();
 
 app.use(cors());
-
 const PORT = process.env.PORT || 3002;
 
 
 //endpoints
 
 app.get('/', (req, res) => {
-  response.status(200).send('Server Up and Running.');
+  res.status(200).send('Server Up and Running.');
 });
 
 app.get('*', (req, res) => {
-  response.status(404).send('Resource Not Available.');
+  res.status(404).send('Resource Not Available.');
 });
 
 //Error Handling
 
 app.use((error, req, res, next) => {
-  response.status(500).send(error.message);
+  res.status(500).send(error.message);
 });
 
 //listeners
