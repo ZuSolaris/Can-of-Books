@@ -36,6 +36,16 @@ app.get('/', (req, res) => {
   res.status(200).send('Server Up and Running.');
 });
 
+app.get('/books', getBooks);
+  async function getBooks(req, res, next){
+    try {
+      let results =  await Book.find();
+      res.status(200).send(results);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 app.get('*', (req, res) => {
   res.status(404).send('Resource Not Available.');
 });
