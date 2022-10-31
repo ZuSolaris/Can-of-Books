@@ -8,8 +8,8 @@ const { Schema } = mongoose;
 const bookSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  won_award: { type: boolean, required: true },
-  awards: {type: string, required: false}
+  wonAward: { type: Boolean, required: true },
+  awards: {type: String, required: false}
 });
 
 

@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 app.get('/books', getBooks);
   async function getBooks(req, res, next){
     try {
-      let results =  await Book.find();
+      let results = await Book.find();
       res.status(200).send(results);
     } catch (error) {
       next(error);
