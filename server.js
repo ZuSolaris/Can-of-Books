@@ -10,7 +10,7 @@ const express = require('express');
 const cors = require('cors');
 const Book = require('./models/book.js');
 const mongoose = require('mongoose');
-const { response } = require('express');
+
 
 
 //connection to db
@@ -46,7 +46,19 @@ app.get('/books', getBooks);
 //end point to add books
 app.post('/books', postBooks);
 
+//  ENDPOINT TO DELETE BOOKS. 
+app.delete('/books/:bookID', deleteBooks);
 
+async function deleteBooks(req, res, next){
+  console.log(req.params.catID)
+  try {
+    let id = req.params.bookID
+    await Book.findByIdAndDelete(id);
+    res.status(200).send('book was deleted');
+  } catch (error) {
+    next(error);
+  }
+}
 
 async function getBooks(req, res, next) {
   try {
@@ -61,7 +73,7 @@ async function postBooks(req, res, next) {
   try {
     console.log(req.body);
     let createdBook = await Book.create(req.body);
-    response.status(200).send(createdBook)
+    res.status(200).send(createdBook);
   } catch (error) {
     next(error);
   }

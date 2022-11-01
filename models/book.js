@@ -8,7 +8,7 @@ const bookSchema = new Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   wonAward: { type: Boolean, required: true },
-  awards: {type: String, required: false}
+  awards: {type: String, required: false},
 });
 
 
