@@ -46,7 +46,18 @@ app.get('/books', getBooks);
 //end point to add books
 app.post('/books', postBooks);
 
+//  ENDPOINT TO DELETE BOOKS. 
+app.delete('/books/:bookID', deleteBooks);
 
+async function deleteBooks(req, res, next){
+  try {
+    let id = req.params.bookID
+    await Book.findByIdAndDelete(id);
+    res.status(200).send('book was deleted');
+  } catch (error) {
+    next(error);
+  }
+}
 
 async function getBooks(req, res, next) {
   try {
