@@ -7,10 +7,10 @@ require('dotenv').config();
 
 
 const express = require('express');
-const nodemon = require('nodemon');
 const cors = require('cors');
 const Book = require('./models/book.js');
 const mongoose = require('mongoose');
+const { response } = require('express');
 
 
 //connection to db
@@ -27,6 +27,11 @@ db.once('open', function () {
 const app = express();
 
 app.use(cors());
+
+//JSON Parser Function
+app.use(express.json());
+
+
 const PORT = process.env.PORT || 3002;
 
 
@@ -38,10 +43,25 @@ app.get('/', (req, res) => {
 
 app.get('/books', getBooks);
 
+//end point to add books
+app.post('/books', postBooks);
+
+
+
 async function getBooks(req, res, next) {
   try {
     let results = await Book.find();
     res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function postBooks(req, res, next) {
+  try {
+    console.log(req.body);
+    let createdBook = await Book.create(req.body);
+    response.status(200).send(createdBook)
   } catch (error) {
     next(error);
   }
