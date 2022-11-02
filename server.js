@@ -43,19 +43,6 @@ app.get('/', (req, res) => {
 
 app.put('/books/:bookID', updateBook);
 
-async function updateBook(res, req, next) {
-  try {
-    let id = req.params.bookID;
-    let data = req.body;
-
-    const updatedBook = await Book.findByIdAndUpdate(id, data, {new: true, overwrite: true});
-
-    res.status(200).send(updatedBook);
-  }
-  catch (error) {
-    next(error);
-  }
-}
 
 
 app.get('/books', getBooks);
@@ -65,6 +52,20 @@ app.post('/books', postBooks);
 
 //  ENDPOINT TO DELETE BOOKS. 
 app.delete('/books/:bookID', deleteBooks);
+async function updateBook(req, res, next) {
+  try {
+    console.log(req.params);
+    let id = req.params.bookID;
+    let data = req.body;
+console.log(data, id);
+    const updatedBook = await Book.findByIdAndUpdate(id, data, {new: true, overwrite: true});
+
+    res.status(200).send(updatedBook);
+  }
+  catch (error) {
+    next(error);
+  }
+}
 
 async function deleteBooks(req, res, next) {
   console.log(req.params.catID)
